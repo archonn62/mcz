@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6
+
+- fix deviceinfo error
+- fix deprecated code
+
 ## 0.1.5
 
 - fix state from climate and sensor
