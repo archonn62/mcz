@@ -5,6 +5,10 @@ The `mczmaestro` integration allows you to control your MCZ Maestro compatible s
 
 ## Installation
 
+### HACS
+
+Add `https://github.com/Aohzan/hass-mcz-maestro` as Custom Repository (type Inegration), see https://www.hacs.xyz/docs/faq/custom_repositories/
+
 ### Manually
 
 Copy the `custom_components/mczmaestro` folder into the config folder.
