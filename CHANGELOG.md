@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7
+
+- fix error when adding new integration
+
 ## 0.1.6
 
 - fix deviceinfo error
