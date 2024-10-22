@@ -1,8 +1,8 @@
 """MCZ Maestro."""
-import websocket
 
 import logging
 
+import websocket
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ class MaestroController:
 class MaestroStoveState:
     """Maestro Stove State."""
 
-    def __init__(self, stateid, description, onoroff):
+    def __init__(self, stateid, description, onoroff) -> None:
         """Init a new state."""
         self.stateid = stateid  # Position in recuperoinfo-frame
         self.description = description  # Maestro command ID to be sent via websocket
@@ -56,7 +56,7 @@ class MaestroStoveState:
 class MaestroInformation:
     """Maestro Information. Consists of a readable name., a websocket ID and a command type."""
 
-    def __init__(self, frameid, name, messagetype):
+    def __init__(self, frameid, name, messagetype) -> None:
         """Init a new information."""
         self.frameid = frameid  # Position in recuperoinfo-frame
         self.name = name  # Maestro command ID to be sent via websocket
@@ -193,16 +193,18 @@ MAESTRO_INFORMATION = [
     MaestroInformation(58, "SetHealth", MAESTRO_MESSAGE_TYPE_INT),
     MaestroInformation(59, "Return_Temperature", MAESTRO_MESSAGE_TYPE_TEMP),
     MaestroInformation(60, "AntiFreeze", MAESTRO_MESSAGE_TYPE_ONOFF),
+    MaestroInformation(61, "SetPuffer2", MAESTRO_MESSAGE_TYPE_INT),
+    # These items are not really in the information frame but they are transformed to match commands.
     MaestroInformation(-1, "Power", MAESTRO_MESSAGE_TYPE_ONOFF),
     MaestroInformation(-2, "Diagnostics", MAESTRO_MESSAGE_TYPE_ONOFF),
 ]
 
 
-def get_maestro_info(frameid: int) -> MaestroInformation:
+def get_maestro_info(frameid: int, value: str) -> MaestroInformation:
     """Return Maestro info from the commandlist by name."""
     if 0 <= frameid <= 60:
         return MAESTRO_INFORMATION[frameid]
-    _LOGGER.warning("Unknown frameid %s received", frameid)
+    _LOGGER.warning("Unknown frameid %s received: %s", frameid, value)
     return MaestroInformation(
         frameid, "Unknown" + str(frameid), MAESTRO_MESSAGE_TYPE_INT
     )
@@ -246,9 +248,8 @@ def process_infostring(message: str) -> dict:
     """Convert info message."""
     result = {}
     _LOGGER.debug("message to process : %s", message)
-    index = 0
-    for value in message.split("|"):
-        info = get_maestro_info(index)
+    for index, value in enumerate(message.split("|")):
+        info = get_maestro_info(index, value)
         if info.messagetype == MAESTRO_MESSAGE_TYPE_TEMP:
             result[info.name] = str(float(int(value, base=16)) / 2)
         elif info.messagetype == MAESTRO_MESSAGE_TYPE_TIMESPAN:
@@ -269,8 +270,6 @@ def process_infostring(message: str) -> dict:
         if info.name == "Stove_State":
             result["Power"] = str(get_maestro_power_state(int(result[info.name])))
             result["Diagnostics"] = str(int(result[info.name]) in [30, 48])
-
-        index += 1
 
     _LOGGER.debug("message proceed to : %s", result)
     return result

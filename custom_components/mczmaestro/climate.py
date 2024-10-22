@@ -45,7 +45,11 @@ class MczClimateEntity(MczEntity, ClimateEntity):
 
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_hvac_modes = [HVACMode.HEAT, HVACMode.AUTO, HVACMode.OFF]
-    _attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
+    _attr_supported_features = (
+        ClimateEntityFeature.TARGET_TEMPERATURE
+        | ClimateEntityFeature.TURN_OFF
+        | ClimateEntityFeature.TURN_ON
+    )
     _attr_target_temperature_step = 0.5
 
     @property
@@ -84,7 +88,7 @@ class MczClimateEntity(MczEntity, ClimateEntity):
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set new target hvac mode."""
         if self.coordinator.data["Stove_State"] == 0:
-            self.controller.send("C|WriteParametri|34|1")
+            self.controller.send("C|WriteParametri|34|1")  # poweron
         if hvac_mode == HVACMode.AUTO:
             self.controller.send("C|WriteParametri|40|1")
         elif hvac_mode == HVACMode.HEAT:
@@ -93,6 +97,14 @@ class MczClimateEntity(MczEntity, ClimateEntity):
             # turn off eco and dynamic mode and shutdown
             self.controller.send("C|WriteParametri|41|0")
             self.controller.send("C|WriteParametri|1111|0")
-            self.controller.send("C|WriteParametri|34|40")
+            self.controller.send("C|WriteParametri|34|40")  # poweroff
 
         await self.coordinator.async_request_refresh()
+
+    async def async_turn_on(self) -> None:
+        """Turn heating on."""
+        self.controller.send("C|WriteParametri|34|1")
+
+    async def async_turn_off(self) -> None:
+        """Turn heating off."""
+        self.controller.send("C|WriteParametri|34|40")
