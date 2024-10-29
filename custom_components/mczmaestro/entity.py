@@ -1,13 +1,10 @@
 """Entity related."""
 
-from homeassistant.helpers.update_coordinator import (
-    CoordinatorEntity,
-    DataUpdateCoordinator,
-)
+from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator
 from homeassistant.util import slugify
 
 from .const import DOMAIN
-from .maestro import MaestroController
+from .maestro.controller import MaestroController
 
 
 class MczEntity(CoordinatorEntity):
@@ -26,12 +23,10 @@ class MczEntity(CoordinatorEntity):
         self._command_name = command_name
 
         self._attr_name = name
-        self._attr_unique_id = slugify(
-            f"{DOMAIN}_{controller.host}_{controller.port}_{command_name}"
-        )
+        self._attr_unique_id = slugify(f"{DOMAIN}_{controller.host}_{controller.port!s}_{command_name}")
         self._attr_device_info = {
-            "identifiers": {(DOMAIN, controller.host + controller.port)},
-            "via_device": (DOMAIN, controller.host + controller.port),
+            "identifiers": {(DOMAIN, controller.host + str(controller.port))},
+            "via_device": (DOMAIN, controller.host + str(controller.port)),
         }
 
         self._state = None

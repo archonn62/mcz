@@ -12,7 +12,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN
 from .entity import MczEntity
-from .maestro import MaestroController, get_maestro_state_description
+from .maestro.controller import MaestroController, get_maestro_state_description
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,9 +54,7 @@ class MczStateEntity(MczEntity, SensorEntity):
         _LOGGER.debug("State entity debug")
         _LOGGER.debug(self.coordinator.data)
         if "Stove_State" in self.coordinator.data:
-            return get_maestro_state_description(
-                int(self.coordinator.data["Stove_State"])
-            )
+            return get_maestro_state_description(int(self.coordinator.data["Stove_State"]))
         return "unknown"
 
     @property
@@ -70,7 +68,7 @@ class MczStateEntity(MczEntity, SensorEntity):
 class MczSensorEntity(MczEntity, SensorEntity):
     """Representation of a MCZ sensor."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         controller: MaestroController,
         coordinator,

@@ -11,7 +11,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN, UNDO_UPDATE_LISTENER
-from .maestro import MaestroController
+from .maestro.controller import MaestroController
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     device_registry = dr.async_get(hass)
     device_registry.async_get_or_create(
         config_entry_id=entry.entry_id,
-        identifiers={(DOMAIN, controller.host + controller.port)},
+        identifiers={(DOMAIN, controller.host + str(controller.port))},
         manufacturer="MCZ",
         model="Maestro",
         name=f"MCZ Maestro {controller.host}:{controller.port}",

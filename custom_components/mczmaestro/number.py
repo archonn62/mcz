@@ -11,7 +11,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN
 from .entity import MczEntity
-from .maestro import MaestroController
+from .maestro.controller import MaestroController
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,15 +27,9 @@ async def async_setup_entry(
     coordinator = data[COORDINATOR]
 
     entities = [
-        MczNumberEntity(
-            controller, coordinator, "Temperature T1", "Chronostat_T1", 1108
-        ),
-        MczNumberEntity(
-            controller, coordinator, "Temperature T2", "Chronostat_T2", 1109
-        ),
-        MczNumberEntity(
-            controller, coordinator, "Temperature T3", "Chronostat_T3", 1110
-        ),
+        MczNumberEntity(controller, coordinator, "Temperature T1", "Chronostat_T1", 1108),
+        MczNumberEntity(controller, coordinator, "Temperature T2", "Chronostat_T2", 1109),
+        MczNumberEntity(controller, coordinator, "Temperature T3", "Chronostat_T3", 1110),
     ]
 
     async_add_entities(entities, True)
