@@ -3,13 +3,12 @@
 from typing import Any
 
 import voluptuous as vol
-
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL
 
 from .const import DOMAIN
-from .maestro import MaestroController
+from .lib.controller import MaestroController
 
 BASE_SCHEMA = vol.Schema(
     {

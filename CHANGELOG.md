@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8
+
+- fix power on/off error
+
 ## 0.1.7
 
 - fix error when adding new integration

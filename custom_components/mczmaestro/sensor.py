@@ -1,7 +1,7 @@
 """Support for the MCZ sensors."""
 
-from collections.abc import Mapping
 import logging
+from collections.abc import Mapping
 from typing import Any
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
@@ -12,7 +12,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN
 from .entity import MczEntity
-from .maestro import MaestroController, get_maestro_state_description
+from .lib.controller import MaestroController, get_maestro_state_description
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -70,7 +70,7 @@ class MczStateEntity(MczEntity, SensorEntity):
 class MczSensorEntity(MczEntity, SensorEntity):
     """Representation of a MCZ sensor."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         controller: MaestroController,
         coordinator,
