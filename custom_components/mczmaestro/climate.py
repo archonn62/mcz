@@ -3,7 +3,12 @@
 import logging
 from typing import Any
 
-from homeassistant.components.climate import ClimateEntity, ClimateEntityFeature, HVACAction, HVACMode
+from homeassistant.components.climate import (
+    ClimateEntity,
+    ClimateEntityFeature,
+    HVACAction,
+    HVACMode,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 from homeassistant.core import HomeAssistant
@@ -11,7 +16,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN
 from .entity import MczEntity
-from .maestro.controller import get_maestro_power_state
+from .lib.controller import get_maestro_power_state
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -41,7 +46,9 @@ class MczClimateEntity(MczEntity, ClimateEntity):
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_hvac_modes = [HVACMode.HEAT, HVACMode.AUTO, HVACMode.OFF]
     _attr_supported_features = (
-        ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON
+        ClimateEntityFeature.TARGET_TEMPERATURE
+        | ClimateEntityFeature.TURN_OFF
+        | ClimateEntityFeature.TURN_ON
     )
     _attr_target_temperature_step = 0.5
 

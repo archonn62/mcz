@@ -33,7 +33,7 @@ jobs:
 
       - name: "Typing"
         run: |
-          uv run mypy custom_components tests
+          uv run mypy --explicit-package-bases custom_components tests
 
       - name: "Tests"
         run: |

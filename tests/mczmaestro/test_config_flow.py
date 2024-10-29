@@ -1,12 +1,12 @@
 from unittest.mock import patch
 
 import pytest
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from homeassistant.const import CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL
+from homeassistant.data_entry_flow import FlowResultType
+from pytest_homeassistant_custom_component.common import MockConfigEntry  # type: ignore
 
 from custom_components.mczmaestro.config_flow import MczConfigFlow
 from custom_components.mczmaestro.const import DOMAIN
-from homeassistant.const import CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL
-from homeassistant.data_entry_flow import FlowResultType
 
 """Test the mczmaestro config flow."""
 
@@ -71,7 +71,9 @@ async def test_abort_if_unique_id_configured(hass, mock_maestro_controller):
     # Create a mock config entry with the same unique ID
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
-        unique_id="_".join([DOMAIN, TEST_USER_INPUT[CONF_HOST], str(TEST_USER_INPUT[CONF_PORT])]),
+        unique_id="_".join(
+            [DOMAIN, TEST_USER_INPUT[CONF_HOST], str(TEST_USER_INPUT[CONF_PORT])]
+        ),
         data=TEST_USER_INPUT,
     )
     mock_entry.add_to_hass(hass)

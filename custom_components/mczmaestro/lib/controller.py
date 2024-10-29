@@ -14,7 +14,9 @@ class MaestroController:
         """Init the MCZ."""
         self._host = host
         self._port = port
-        self._server = create_connection(f"ws://{self._host}:{self._port!s}", timeout=timeout)
+        self._server = create_connection(
+            f"ws://{self._host}:{self._port!s}", timeout=timeout
+        )
 
     @property
     def host(self) -> str:
@@ -158,11 +160,21 @@ MAESTRO_INFORMATION = [
     MaestroInformation(35, "Date_Month", MAESTRO_MESSAGE_TYPE_INT),  # (1-12)
     MaestroInformation(36, "Date_Year", MAESTRO_MESSAGE_TYPE_INT),
     MaestroInformation(37, "Total_Operating_Hours", MAESTRO_MESSAGE_TYPE_TIMESPAN),
-    MaestroInformation(38, "Hours_Of_Operation_In_Power1", MAESTRO_MESSAGE_TYPE_TIMESPAN),
-    MaestroInformation(39, "Hours_Of_Operation_In_Power2", MAESTRO_MESSAGE_TYPE_TIMESPAN),
-    MaestroInformation(40, "Hours_Of_Operation_In_Power3", MAESTRO_MESSAGE_TYPE_TIMESPAN),
-    MaestroInformation(41, "Hours_Of_Operation_In_Power4", MAESTRO_MESSAGE_TYPE_TIMESPAN),
-    MaestroInformation(42, "Hours_Of_Operation_In_Power5", MAESTRO_MESSAGE_TYPE_TIMESPAN),
+    MaestroInformation(
+        38, "Hours_Of_Operation_In_Power1", MAESTRO_MESSAGE_TYPE_TIMESPAN
+    ),
+    MaestroInformation(
+        39, "Hours_Of_Operation_In_Power2", MAESTRO_MESSAGE_TYPE_TIMESPAN
+    ),
+    MaestroInformation(
+        40, "Hours_Of_Operation_In_Power3", MAESTRO_MESSAGE_TYPE_TIMESPAN
+    ),
+    MaestroInformation(
+        41, "Hours_Of_Operation_In_Power4", MAESTRO_MESSAGE_TYPE_TIMESPAN
+    ),
+    MaestroInformation(
+        42, "Hours_Of_Operation_In_Power5", MAESTRO_MESSAGE_TYPE_TIMESPAN
+    ),
     MaestroInformation(43, "Hours_To_Service", MAESTRO_MESSAGE_TYPE_INT),
     MaestroInformation(44, "Minutes_To_Switch_Off", MAESTRO_MESSAGE_TYPE_INT),
     MaestroInformation(45, "Number_Of_Ignitions", MAESTRO_MESSAGE_TYPE_INT),
@@ -193,7 +205,9 @@ def get_maestro_info(frameid: int, value: str) -> MaestroInformation:
     if 0 <= frameid <= 61:
         return MAESTRO_INFORMATION[frameid]
     _LOGGER.warning("Unknown frameid %s received: %s", frameid, value)
-    return MaestroInformation(frameid, "Unknown" + str(frameid), MAESTRO_MESSAGE_TYPE_INT)
+    return MaestroInformation(
+        frameid, "Unknown" + str(frameid), MAESTRO_MESSAGE_TYPE_INT
+    )
 
 
 def get_maestro_infoname(infoname: str) -> MaestroInformation:

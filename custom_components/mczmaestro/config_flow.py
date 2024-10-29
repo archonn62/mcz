@@ -3,13 +3,12 @@
 from typing import Any
 
 import voluptuous as vol
-
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL
 
 from .const import DOMAIN
-from .maestro.controller import MaestroController
+from .lib.controller import MaestroController
 
 BASE_SCHEMA = vol.Schema(
     {
@@ -35,9 +34,13 @@ class MczConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle a flow initialized by the user."""
         errors: dict[str, str] = {}
         if user_input is None:
-            return self.async_show_form(step_id="user", data_schema=BASE_SCHEMA, errors=errors)
+            return self.async_show_form(
+                step_id="user", data_schema=BASE_SCHEMA, errors=errors
+            )
 
-        entry = await self.async_set_unique_id("_".join([DOMAIN, user_input[CONF_HOST], str(user_input[CONF_PORT])]))
+        entry = await self.async_set_unique_id(
+            "_".join([DOMAIN, user_input[CONF_HOST], str(user_input[CONF_PORT])])
+        )
 
         if entry:
             self._abort_if_unique_id_configured()
@@ -46,7 +49,9 @@ class MczConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if not controller.connected:
             errors["base"] = "cannot_connect"
-            return self.async_show_form(step_id="user", data_schema=BASE_SCHEMA, errors=errors)
+            return self.async_show_form(
+                step_id="user", data_schema=BASE_SCHEMA, errors=errors
+            )
 
         self.base_input = user_input
         return self.async_create_entry(

@@ -11,7 +11,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN
 from .entity import MczEntity
-from .maestro.controller import MaestroController
+from .lib.controller import MaestroController
 
 _LOGGER = logging.getLogger(__name__)
 

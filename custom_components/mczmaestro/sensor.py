@@ -1,7 +1,7 @@
 """Support for the MCZ sensors."""
 
-from collections.abc import Mapping
 import logging
+from collections.abc import Mapping
 from typing import Any
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
@@ -12,7 +12,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN
 from .entity import MczEntity
-from .maestro.controller import MaestroController, get_maestro_state_description
+from .lib.controller import MaestroController, get_maestro_state_description
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,7 +54,9 @@ class MczStateEntity(MczEntity, SensorEntity):
         _LOGGER.debug("State entity debug")
         _LOGGER.debug(self.coordinator.data)
         if "Stove_State" in self.coordinator.data:
-            return get_maestro_state_description(int(self.coordinator.data["Stove_State"]))
+            return get_maestro_state_description(
+                int(self.coordinator.data["Stove_State"])
+            )
         return "unknown"
 
     @property

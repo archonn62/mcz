@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock, patch
 
-from custom_components.mczmaestro.maestro.controller import MaestroController
+from custom_components.mczmaestro.lib.controller import MaestroController
 
 TEST_HOST = "192.168.121.1"
 TEST_PORT = 81
@@ -19,7 +19,9 @@ def test_init_success(mock_create_connection):
     # Assert
     assert controller.host == TEST_HOST
     assert controller.port == TEST_PORT
-    mock_create_connection.assert_called_once_with(f"ws://{TEST_HOST}:{TEST_PORT}", timeout=TEST_TIMEOUT)
+    mock_create_connection.assert_called_once_with(
+        f"ws://{TEST_HOST}:{TEST_PORT}", timeout=TEST_TIMEOUT
+    )
     assert controller._server == mock_ws  # noqa: SLF001
 
 
@@ -35,7 +37,9 @@ def test_init_default_timeout(mock_create_connection):
     # Assert
     assert controller.host == TEST_HOST
     assert controller.port == TEST_PORT
-    mock_create_connection.assert_called_once_with(f"ws://{TEST_HOST}:{TEST_PORT!s}", timeout=60)
+    mock_create_connection.assert_called_once_with(
+        f"ws://{TEST_HOST}:{TEST_PORT!s}", timeout=60
+    )
     assert controller._server == mock_ws  # noqa: SLF001
 
 

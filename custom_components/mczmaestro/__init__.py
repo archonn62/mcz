@@ -1,7 +1,7 @@
 """MCZ Maestro integration."""
 
-from datetime import timedelta
 import logging
+from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL, Platform
@@ -11,7 +11,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONTROLLER, COORDINATOR, DOMAIN, UNDO_UPDATE_LISTENER
-from .maestro.controller import MaestroController
+from .lib.controller import MaestroController
 
 _LOGGER = logging.getLogger(__name__)
 

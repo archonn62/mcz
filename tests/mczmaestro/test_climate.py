@@ -28,7 +28,9 @@ def climate_entity(mock_controller, mock_coordinator):
 
 
 @pytest.mark.asyncio
-async def test_async_set_hvac_mode_auto(climate_entity, mock_controller, mock_coordinator):
+async def test_async_set_hvac_mode_auto(
+    climate_entity, mock_controller, mock_coordinator
+):
     mock_coordinator.data["Stove_State"] = 1
     await climate_entity.async_set_hvac_mode(HVACMode.AUTO)
     mock_controller.send.assert_any_call("C|WriteParametri|40|1")
@@ -36,7 +38,9 @@ async def test_async_set_hvac_mode_auto(climate_entity, mock_controller, mock_co
 
 
 @pytest.mark.asyncio
-async def test_async_set_hvac_mode_heat(climate_entity, mock_controller, mock_coordinator):
+async def test_async_set_hvac_mode_heat(
+    climate_entity, mock_controller, mock_coordinator
+):
     mock_coordinator.data["Stove_State"] = 1
     await climate_entity.async_set_hvac_mode(HVACMode.HEAT)
     mock_controller.send.assert_any_call("C|WriteParametri|40|0")
@@ -44,7 +48,9 @@ async def test_async_set_hvac_mode_heat(climate_entity, mock_controller, mock_co
 
 
 @pytest.mark.asyncio
-async def test_async_set_hvac_mode_off(climate_entity, mock_controller, mock_coordinator):
+async def test_async_set_hvac_mode_off(
+    climate_entity, mock_controller, mock_coordinator
+):
     mock_coordinator.data["Stove_State"] = 1
     await climate_entity.async_set_hvac_mode(HVACMode.OFF)
     mock_controller.send.assert_any_call("C|WriteParametri|41|0")
@@ -54,7 +60,9 @@ async def test_async_set_hvac_mode_off(climate_entity, mock_controller, mock_coo
 
 
 @pytest.mark.asyncio
-async def test_async_set_hvac_mode_power_on(climate_entity, mock_controller, mock_coordinator):
+async def test_async_set_hvac_mode_power_on(
+    climate_entity, mock_controller, mock_coordinator
+):
     mock_coordinator.data["Stove_State"] = 0
     await climate_entity.async_set_hvac_mode(HVACMode.HEAT)
     mock_controller.send.assert_any_call("C|WriteParametri|34|1")
