@@ -2,7 +2,7 @@
 
 import logging
 
-import websocket
+from websocket import create_connection
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ class MaestroController:
         """Init the MCZ."""
         self._host = host
         self._port = port
-        self._server = websocket.create_connection(f"ws://{self._host}:{self._port!s}", timeout=timeout)
+        self._server = create_connection(f"ws://{self._host}:{self._port!s}", timeout=timeout)
 
     @property
     def host(self) -> str:
@@ -257,5 +257,5 @@ def process_infostring(message: str) -> dict:
             result["Power"] = str(get_maestro_power_state(int(result[info.name])))
             result["Diagnostics"] = str(int(result[info.name]) in [30, 48])
 
-    _LOGGER.debug("message proceed to : %s", result)
+    _LOGGER.debug("message proceeded to : %s", result)
     return result
