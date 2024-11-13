@@ -1,0 +1,11 @@
+[project]
+name = "hass-mcz-maestro"
+version = "0.1.8"
+description = "Home-Assistant custom component for MCZ Maestro pellet stoves"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "homeassistant>=2024.10.4",
+    "pytest-homeassistant-custom-component>=0.13.175",
+    "websocket-client>=1.8.0",
+]
